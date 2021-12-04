@@ -7,7 +7,6 @@ numbers = input.shift.split(",").map(&:to_i)
 boards = []
 
 input.each_slice(6) do |board_numbers|
-  pp "---"
   board_numbers.shift
   board = []
   board_numbers.each do |row|
@@ -19,5 +18,3 @@ end
 bingo = Bingo.new(numbers, boards)
 
 bingo.call
-
-
