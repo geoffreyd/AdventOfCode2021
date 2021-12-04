@@ -18,3 +18,17 @@ numbers.each do |n|
 end
 
 pp count
+
+#### PART 2
+
+count = 0
+last_value = Float::INFINITY
+
+(0..numbers.length-3).each do |idx|
+  sum = numbers.slice(idx, 3).sum
+
+  count += 1 if sum > last_value
+  last_value = sum
+end
+
+pp count
