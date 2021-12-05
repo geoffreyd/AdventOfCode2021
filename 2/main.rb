@@ -1,7 +1,6 @@
-require 'pattern-match'
-using PatternMatch
+# frozen_string_literal: true
 
-input = IO.readlines('./input.txt', chomp: true)
+input = IO.readlines('./sample.txt', chomp: true)
 
 horizontal = 0
 depth = 0
@@ -9,16 +8,21 @@ aim = 0
 
 input.each do |line|
   direction, value = line.split
-  match([direction, value.to_i]) do
-    with(_['forward', count]) {
-      horizontal += count
-      depth += aim * count
-    }
-    with(_['down', count]) { aim += count }
-    with(_['up', count]) { aim -= count }
+
+  case [direction, value.to_i]
+  in 'forward', Integer => count
+    horizontal += count
+    depth += aim * count
+  in 'down', Integer => count
+    aim += count
+  in 'up', Integer => count
+    aim -= count
+  else
+    raise 'unknown instruction'
   end
-  p "Horizontal - #{horizontal}"
-  p "Depth - #{depth}"
+
+  # p "Horizontal - #{horizontal}"
+  # p "Depth - #{depth}"
 end
 
 p "Score - #{depth * horizontal}"
