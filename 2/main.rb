@@ -1,20 +1,24 @@
 require 'pattern-match'
+using PatternMatch
 
 input = IO.readlines('./input.txt', chomp: true)
 
-using PatternMatch
-
 horizontal = 0
 depth = 0
+aim = 0
 
 input.each do |line|
-  match(line.split(' ')) do
-    with(_['forward', count]) { horizontal += count.to_i }
-    with(_['down', count]) { depth += count.to_i }
-    with(_['up', count]) { depth -= count.to_i }
+  direction, value = line.split
+  match([direction, value.to_i]) do
+    with(_['forward', count]) {
+      horizontal += count
+      depth += aim * count
+    }
+    with(_['down', count]) { aim += count }
+    with(_['up', count]) { aim -= count }
   end
+  p "Horizontal - #{horizontal}"
+  p "Depth - #{depth}"
 end
 
-p "Horizontal - #{horizontal}"
-p "Depth - #{depth}"
 p "Score - #{depth * horizontal}"
