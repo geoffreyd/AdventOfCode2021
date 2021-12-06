@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require './bingo'
 
-input = IO.readlines('./input.txt', chomp: true);
+input = IO.readlines('./input.txt', chomp: true)
 
-numbers = input.shift.split(",").map(&:to_i)
+numbers = input.shift.split(',').map(&:to_i)
 
 boards = []
 

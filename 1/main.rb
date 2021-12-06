@@ -1,5 +1,6 @@
+# frozen_string_literal: true
 
-input = IO.readlines('./input.txt', chomp: true);
+input = IO.readlines('./input.txt', chomp: true)
 
 numbers = input.map(&:to_i)
 
@@ -13,7 +14,7 @@ count = 0
 last_value = Float::INFINITY
 
 numbers.each do |n|
-  count +=1 if n > last_value
+  count += 1 if n > last_value
   last_value = n
 end
 
@@ -24,7 +25,7 @@ pp count
 count = 0
 last_value = Float::INFINITY
 
-(0..numbers.length-3).each do |idx|
+(0..numbers.length - 3).each do |idx|
   sum = numbers.slice(idx, 3).sum
 
   count += 1 if sum > last_value

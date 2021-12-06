@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Vents
   X = 0
   Y = 1

@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require './board'
 
 class Bingo
   def initialize(numbers, boards)
     @numbers = numbers
-    @boards = boards.map {|board| Board.new(board) }
+    @boards = boards.map { |board| Board.new(board) }
     @wonBoards = []
     # pp @boards.first.print
   end
@@ -13,16 +15,15 @@ class Bingo
       pp "calling #{number}"
       @boards.each do |board|
         next if @wonBoards.include? board
-        board.number_called(number)
-        if board.win?
-          pp "Board won!"
-          board.print
-          pp board.score
-          @wonBoards << (board)
-        end
 
+        board.number_called(number)
+        next unless board.win?
+
+        pp 'Board won!'
+        board.print
+        pp board.score
+        @wonBoards << (board)
       end
     end
   end
-
 end
