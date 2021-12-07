@@ -12,27 +12,11 @@ initial_ages.each do |age|
   age_count[age] += 1
 end
 
-pp age_count
-
 256.times.each do
-  # new_ages = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-
-  # (1..8).each do |i|
-  #   # pp "new ages #{i} getting set to #{age_count[i - 1]}"
-  #   new_ages[i -1] = age_count[i]
-  # end
-
-  # new_ages[8] = age_count[0]
-  # new_ages[6] += age_count[0]
-  # age_count = new_ages
-
   to_be_born = age_count[0]
-  age_count[0] = 0
   age_count = age_count.rotate
   age_count[6] += to_be_born
-  age_count[8] += to_be_born
-
-  # pp age_count
+  age_count[8] = to_be_born
 end
 
 pp age_count.sum
