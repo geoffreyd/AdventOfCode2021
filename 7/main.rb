@@ -8,8 +8,13 @@ min, max = positions.minmax
 
 min_used = Float::INFINITY
 
+@fact = {}
+def fact(n)
+  @fact[n] ||= (1..n).inject(:+) || 1
+end
+
 (min..max).each do |target|
-  fuel_used = positions.map { |p| (target - p).abs }.sum
+  fuel_used = positions.map { |p| fact((target - p).abs) }.sum
   min_used = fuel_used if fuel_used < min_used
 end
 
