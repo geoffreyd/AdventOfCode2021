@@ -10,13 +10,16 @@ input.each do |line|
   direction, value = line.split
 
   case [direction, value.to_i]
-  in 'forward', Integer => count
+  in 'forward', count
     horizontal += count
     depth += aim * count
-  in 'down', Integer => count
+
+  in 'down', count
     aim += count
-  in 'up', Integer => count
+
+  in 'up', count
     aim -= count
+
   else
     raise 'unknown instruction'
   end
