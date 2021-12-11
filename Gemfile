@@ -5,3 +5,5 @@ source 'https://rubygems.org'
 gem 'pattern-match'
 
 gem 'rubocop'
+gem 'pry'
+gem 'byebug'
