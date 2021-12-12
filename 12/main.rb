@@ -3,7 +3,7 @@
 input = IO.readlines('./input.txt', chomp: true)
 
 cave_connections = input.map { _1.split('-')}
-pp cave_connections
+# pp cave_connections
 
 @caves = {}
 
@@ -19,28 +19,35 @@ pp @caves
 
 @paths = []
 
-def dig(node, prev, small_visits, path)
+def dig(node, _prev, small_visits, path)
   # pp "Small Visits - #{small_visits}"
-  if node == 'end'
+  if node == 'end' || path.length > 100
     @paths << path
     return
   end
-  nexts = @caves[node] - small_visits
+
+  small_twice = small_visits.any? { |k, v| v > 1 && k != 'start' }
+  smalls = small_twice ? small_visits.keys : []
+  nexts = @caves[node] - smalls - ['start']
 
   nexts.each do |next_cave|
     # pp "visiting #{next_cave} - #{path}"
     new_small = if next_cave.match(/^[a-z]+$/)
-      small_visits + [next_cave]
-    else
-      small_visits
-    end
+                  r = small_visits.clone
+                  r[next_cave] += 1
+                  r
+                else
+                  small_visits
+                end
 
     dig(next_cave, node, new_small, path + [next_cave])
   end
 end
 
-dig('start', nil, ['start'], ['start'])
+visits = Hash.new { 0 }
 
-pp @paths
+dig('start', nil, visits, ['start'])
+
+# pp @paths
 
 pp @paths.count
