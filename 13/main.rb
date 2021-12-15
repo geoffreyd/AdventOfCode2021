@@ -35,7 +35,7 @@ instructions.each do |instruction|
   direction = direction[-1]
   case direction
   when 'x'
-    fold_left(loc.to_i)
+    fold_matrix_left(@dots, loc.to_i)
   when 'y'
     fold_up(loc.to_i)
   end

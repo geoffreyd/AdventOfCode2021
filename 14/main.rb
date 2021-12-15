@@ -22,9 +22,9 @@ end
 
 pp @pair_counts
 
-pp "--- start loop ---"
+pp '--- start loop ---'
 
-(0...40).each do |i|
+(0...40).each do |_i|
   new_counts = Hash.new(0)
 
   @pair_counts.each do |pair, count|
@@ -35,7 +35,7 @@ pp "--- start loop ---"
     new_counts[pair1] += count
     new_counts[pair2] += count
   end
-  pp new_counts
+  # pp new_counts
 
   @pair_counts = new_counts
 
@@ -56,8 +56,9 @@ letter_counts[last] += 1
 
 min, max = letter_counts.values.minmax
 
-pp (max/2) - (min/2)
+pp (max / 2) - (min / 2)
 
+## PART 1
 # by_letter = @template.split('').group_by { _1 }
 
 # by_letter.transform_values! { |v| v.length }
