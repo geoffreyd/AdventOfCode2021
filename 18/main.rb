@@ -2,11 +2,9 @@
 
 require('json')
 
-input = IO.readlines('./sample.txt', chomp: true)
+input = IO.readlines('./input.txt', chomp: true)
 
 snailfish_lists = input.map { JSON.parse(_1) }
-
-
 
 # processed_lists = snailfish_lists.map do |snailfish_list|
 #   process_list(snailfish_list)
@@ -120,13 +118,13 @@ end
 
 # add_lists([[[0, [4, 5]], [0, 0]], [[[4, 5], [2, 6]], [9, 5]]], [7, [[[3, 7], [4, 3]], [[6, 3], [8, 8]]]])
 
-sum = snailfish_lists.reduce do |acc, snailfish_list|
-  pp "  #{acc}"
-  pp "+ #{snailfish_list}"
-  add_lists(acc, snailfish_list)
-end
+# sum = snailfish_lists.reduce do |acc, snailfish_list|
+#   pp "  #{acc}"
+#   pp "+ #{snailfish_list}"
+#   add_lists(acc, snailfish_list)
+# end
 
-pp sum
+# pp sum
 
 def magnitude(numbers)
   a,b = numbers
@@ -138,5 +136,26 @@ def magnitude(numbers)
 end
 
 # mag_test = [[[[0, 7], 4], [[7, 8], [6, 0]]], [8, 1]]
+# pp magnitude sum
 
-pp magnitude sum
+
+# Part 2
+largest_mag = 0
+
+snailfish_lists.each do |a|
+  snailfish_lists.each do |b|
+    next if a == b
+    mag1 = magnitude(add_lists(a, b))
+    mag2 = magnitude(add_lists(b, a))
+
+    if mag1 > largest_mag
+      largest_mag = mag1
+    end
+
+    if mag2 > largest_mag
+      largest_mag = mag2
+    end
+  end
+end
+
+pp largest_mag
