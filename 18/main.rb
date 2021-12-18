@@ -22,28 +22,30 @@ def reduce_list(snailfish_list, depth: 0, return_early: false, mode: :explode)
   end
   a, b = snailfish_list
 
-  if depth >= 4
-    return [0, a, b, true, depth]
-  end
+  return [0, a, b, true, depth] if depth >= 4
 
   reduced_a, add_l1, add_r1, early_left, l_depth = reduce_list(a, depth: depth + 1, mode: mode)
   if early_left
     # pp "Early exit left"
-    reduced_b, add_l2, add_r2, early_right, r_depth = b, nil, nil, true, depth
+    reduced_b = b
+    add_l2 = nil
+    add_r2 = nil
+    early_right = true
+    r_depth = depth
   else
     reduced_b, add_l2, add_r2, early_right, r_depth = reduce_list(b, depth: depth + 1, mode: mode)
   end
 
-  ret_a = if (reduced_a.is_a?(Numeric) && add_l2.is_a?(Numeric))
+  ret_a = if reduced_a.is_a?(Numeric) && add_l2.is_a?(Numeric)
             # pp "Exploded left #{reduced_a} #{add_l2}"
             reduced_a + add_l2
-          elsif (add_l2.is_a?(Numeric))
+          elsif add_l2.is_a?(Numeric)
             set_in_right_most(reduced_a, add_l2)
           else
             reduced_a
           end
 
-  ret_b = if (reduced_b.is_a?(Numeric) && add_r1.is_a?(Numeric))
+  ret_b = if reduced_b.is_a?(Numeric) && add_r1.is_a?(Numeric)
             # pp "Exploded right #{reduced_b} #{add_r1}"
             reduced_b + add_r1
           elsif add_r1.is_a?(Numeric)
@@ -84,7 +86,7 @@ def add_lists(left, right)
   explode_count = 0
 
   # repeat until the last run is the same as the current run
-  while true
+  loop do
     # pp to_test
 
     to_test, _, _, _, depth = reduce_list(to_test, mode: mode)
@@ -107,7 +109,6 @@ def add_lists(left, right)
       explode_count += 1
     end
 
-
     last = to_test
   end
 
@@ -127,7 +128,7 @@ end
 # pp sum
 
 def magnitude(numbers)
-  a,b = numbers
+  a, b = numbers
 
   a_num = a.is_a?(Numeric) ? a : magnitude(a)
   b_num = b.is_a?(Numeric) ? b : magnitude(b)
@@ -138,23 +139,19 @@ end
 # mag_test = [[[[0, 7], 4], [[7, 8], [6, 0]]], [8, 1]]
 # pp magnitude sum
 
-
 # Part 2
 largest_mag = 0
 
-snailfish_lists.each do |a|
-  snailfish_lists.each do |b|
-    next if a == b
+snailfish_lists.each.with_index do |a, a_idx|
+  snailfish_lists.each.with_index do |b, b_idx|
+    next if a_idx >= b_idx
+
     mag1 = magnitude(add_lists(a, b))
     mag2 = magnitude(add_lists(b, a))
 
-    if mag1 > largest_mag
-      largest_mag = mag1
-    end
+    largest_mag = mag1 if mag1 > largest_mag
 
-    if mag2 > largest_mag
-      largest_mag = mag2
-    end
+    largest_mag = mag2 if mag2 > largest_mag
   end
 end
 
